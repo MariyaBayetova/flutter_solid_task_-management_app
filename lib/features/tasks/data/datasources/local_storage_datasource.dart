@@ -5,7 +5,10 @@ import 'task_datasource.dart';
 @Environment("dev")
 @LazySingleton(as: TaskDataSource)
 class MockTaskDataSource implements TaskDataSource {
-  final List<Task> _tasks = [];
+  final List<Task> _tasks = [
+    Task(id: '1', title: 'Mock Task (Dev Mode)'),
+    Task(id: '2', title: 'Check SOLID Principles'),
+  ];
 
   @override
   Future<List<Task>> readAll() async => List.from(_tasks);
@@ -18,5 +21,8 @@ class MockTaskDataSource implements TaskDataSource {
   
   @override
   @disposeMethod
-  Future<void> dispose() async => _tasks.clear();
+  Future<void> dispose() async {
+    _tasks.clear();
+    print("MockDataSource disposed");
+  }
 }

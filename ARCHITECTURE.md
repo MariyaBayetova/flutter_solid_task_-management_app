@@ -27,15 +27,15 @@ We utilize a **Service Locator** pattern powered by `GetIt` and `Injectable`.
 
 ---
 
-## 🛠 SOLID Principles Implementation
+## SOLID Principles Implementation
 
 | Principle | How it is applied in this code |
 | :--- | :--- |
-| **S**ingle Responsibility | Each class has one job. `TaskValidator` validates, `TaskRepository` handles data, `NotificationService` notifies, and `TaskReportGenerator` manages reports. |
+| **S**ingle Responsibility | Each class has one job. `TaskRepository` handles data, `TaskValidator` validates, `NotificationService` notifies, and `TaskReportGenerator` manages reports. |
 | **O**pen/Closed | We can add new storage (e.g., SQLite) by implementing a new `DataSource` without modifying existing BLoC or UseCase logic. |
 | **L**iskov Substitution | `PriorityTask` and `RecurringTask` extend `Task`. All logic operates on `List<Task>`, allowing subtypes to replace the base class without breaking the app. |
-| **I**nterface Segregation | We use focused interfaces like `ITaskRepository` and `TaskDataSource`. Classes only depend on the specific methods they need to function. |
-| **D**ependency Inversion | High-level modules (BLoC, Controller) depend on abstractions (`ITaskRepository`), not concrete implementations (SharedPrefs). |
+| **I**nterface Segregation | `Readable` (has read operations), `Writable` (has write operations), `Deletable` (has delete operations). |
+| **D**ependency Inversion | 1. **TaskRepositoryImpl** depends on the `TaskDataSource` interface (abstraction). <br> 2. **TaskBloc** depends on **UseCases**, which are built upon the **ITaskRepository** interface. <br> 3. This ensures that the Business Logic (Domain) does not depend on the specific storage implementation (SharedPrefs/SQLite). |
 
 ---
 

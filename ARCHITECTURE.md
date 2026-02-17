@@ -27,24 +27,15 @@ We utilize a **Service Locator** pattern powered by `GetIt` and `Injectable`.
 
 ---
 
-## SOLID Principles Implementation
+## 🛠 SOLID Principles Implementation
 
 | Principle | How it is applied in this code |
 | :--- | :--- |
-| **S**ingle Responsibility | Every class has one job. `TaskValidator` only validates, `TaskRepository` data operations, `NotificationService` only notifies, `TaskReportGenerator` generating reports. |
-| **O**pen/Closed | We can swap storage (e.g., move from SharedPrefs to SQLite) by adding a new `DataSource` without touching the BLoC code. |
-| **L**iskov Substitution | 
-`PriorityTask` and `RecurringTask` both extend the base `Task` class.
-All business logic (UseCases, Repositories) and State Management (BLoC) operate on the base `Task` type (e.g., `List<Task>`). The `ITaskRepository` can be replaced by any of its implementations without breaking the `TaskBloc`. |
-| **I**nterface Segregation |
-`Readable` has read operations,
-`Writable` has write operations,
-`Deletable` has delete operations.
- We use specific interfaces (`ITaskRepository`, `TaskDataSource`) so classes only know about methods they actually use. |
-| **D**ependency Inversion | 
-`TaskRepository` depends on `ITaskDataSource` interface
-`TaskController` depends on `ITaskRepository` interface.
-The `TaskBloc` does not "know" about `SharedPref`. It depends on `UseCase` and `Repository` abstractions. |
+| **S**ingle Responsibility | Each class has one job. `TaskValidator` validates, `TaskRepository` handles data, `NotificationService` notifies, and `TaskReportGenerator` manages reports. |
+| **O**pen/Closed | We can add new storage (e.g., SQLite) by implementing a new `DataSource` without modifying existing BLoC or UseCase logic. |
+| **L**iskov Substitution | `PriorityTask` and `RecurringTask` extend `Task`. All logic operates on `List<Task>`, allowing subtypes to replace the base class without breaking the app. |
+| **I**nterface Segregation | We use focused interfaces like `ITaskRepository` and `TaskDataSource`. Classes only depend on the specific methods they need to function. |
+| **D**ependency Inversion | High-level modules (BLoC, Controller) depend on abstractions (`ITaskRepository`), not concrete implementations (SharedPrefs). |
 
 ---
 
